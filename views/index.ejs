@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+  </head>
+  <body>
+    <h1>Welcome back, <%= name %>!</h1>
+    <p>You have <%= balance %> USD in your account.</p>
+    <hr />
+    <h2>Transfer money</h2>
+    <form autocomplete="off" method="POST" action="/transfer">
+      <label for="to">To:</label>
+      <input id="to" name="to" type="text" placeholder="To user" />
+      <br />
+      <label for="amount">Amount ($):</label>
+      <input id="amount" name="amount" type="number" placeholder="Amount" />
+      <br />
+      <button>Transfer</button>
+    </form>
+    <hr />
+    <a href="/logout">Log Out</a>
+  </body>
+</html>

@@ -1,22 +1,55 @@
-import path from 'path'
-import express from 'express'
-import cookieParser from 'cookie-parser'
+const express = require('express');
+const cookieParser = require('cookie-parser');
 
-const app = express()
+const { USERS, BALANCES } = require('./database');
 
-app.use(express.urlencoded({ extended: true }))
-app.use(cookieParser())
+const app = express();
+
+app.set('view engine', 'ejs');
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.get('/', function (req, res) {
-  res.sendFile(path.resolve('public', 'index.html'))
-})
+  const username = req.cookies.username;
+  if (!username) {
+    res.redirect('/login');
+  } else {
+    res.render('index', {
+      name: username,
+      balance: BALANCES[username],
+    });
+  }
+});
 
-app.get('/login', function () {})
+app.get('/login', function (req, res) {
+  res.render('login');
+});
 
-app.post('/login', function (req, res) {})
+app.get('/logout', function (req, res) {
+  res.clearCookie('username');
+  res.redirect('/login');
+});
 
-app.post('/transfer', function (req, res) {})
+app.post('/login', function (req, res) {
+  const { username, password } = req.body;
+  if (USERS[username] == password) {
+    res.cookie('username', username);
+    res.redirect('/');
+  } else {
+    res.send('Username or password is wrong!');
+  }
+});
+
+app.post('/transfer', function (req, res) {
+  const username = req.cookies.username;
+  const { to, amount } = req.body;
+
+  BALANCES[username] -= Number(amount);
+  BALANCES[to] += Number(amount);
+
+  res.redirect('/');
+});
 
 app.listen(8080, function () {
-  console.log('Express server is running on port 8080')
-})
+  console.log('Express server is running on port 8080');
+});
