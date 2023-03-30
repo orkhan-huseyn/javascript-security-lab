@@ -10,7 +10,10 @@ const BALANCES = {
   gulxanim: 300,
 };
 
+const SESSIONS = {}; // session_id => username
+
 module.exports = {
   USERS,
   BALANCES,
+  SESSIONS,
 };
