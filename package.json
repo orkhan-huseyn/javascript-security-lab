@@ -4,7 +4,8 @@
   "description": "Web security lab with express",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "attacker": "nodemon attacker/server.js"
   },
   "repository": {
     "type": "git",
