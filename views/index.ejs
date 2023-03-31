@@ -5,6 +5,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
+    <style>
+      label {
+        display: block;
+        margin: 5px 0;
+      }
+
+      table,
+      tr,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+    </style>
   </head>
   <body>
     <h1>Welcome back, <%= name %>!</h1>
@@ -18,8 +32,37 @@
       <label for="amount">Amount ($):</label>
       <input id="amount" name="amount" type="number" placeholder="Amount" />
       <br />
+      <label for="description">Description:</label>
+      <textarea
+        id="description"
+        name="description"
+        placeholder="Description"
+      ></textarea>
+      <br />
       <button>Transfer</button>
     </form>
+    <hr />
+    <h2>Transactions</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>From</th>
+          <th>To</th>
+          <th>Amount</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (let i = 0; i < transactions.length; i++) { %>
+        <tr>
+          <td><%- transactions[i].from %></td>
+          <td><%- transactions[i].to %></td>
+          <td><%- transactions[i].amount %></td>
+          <td><%- transactions[i].description %></td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
     <hr />
     <a href="/logout">Log Out</a>
   </body>

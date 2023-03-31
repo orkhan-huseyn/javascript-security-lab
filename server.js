@@ -2,7 +2,7 @@ const crypto = require('crypto');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 
-const { USERS, BALANCES, SESSIONS } = require('./database');
+const { USERS, BALANCES, SESSIONS, TRANSACTIONS } = require('./database');
 
 const app = express();
 
@@ -19,6 +19,7 @@ app.get('/', function (req, res) {
     res.render('index', {
       name: username,
       balance: BALANCES[username],
+      transactions: TRANSACTIONS[username] || [],
     });
   }
 });
@@ -46,11 +47,33 @@ app.post('/login', function (req, res) {
 
 app.post('/transfer', function (req, res) {
   const sessionId = req.cookies.SID;
-  const username = SESSIONS[sessionId];
-  const { to, amount } = req.body;
+  const from = SESSIONS[sessionId];
+  const { to, amount, description } = req.body;
 
-  BALANCES[username] -= Number(amount);
+  const toTxns = TRANSACTIONS[to] || [];
+  const fromTxns = TRANSACTIONS[from] || [];
+
+  toTxns.push({
+    amount: `+$${amount}`,
+    from,
+    to,
+    description,
+  });
+
+  fromTxns.push({
+    amount: `-$${amount}`,
+    from,
+    to,
+    description,
+  });
+
+  TRANSACTIONS[to] = toTxns;
+  TRANSACTIONS[from] = fromTxns;
+
+  BALANCES[from] -= Number(amount);
   BALANCES[to] += Number(amount);
+
+  console.log(TRANSACTIONS);
 
   res.redirect('/');
 });

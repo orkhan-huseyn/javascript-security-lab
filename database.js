@@ -5,9 +5,36 @@ const USERS = {
 };
 
 const BALANCES = {
-  dadashbala: 100,
-  tukezban: 200,
-  gulxanim: 300,
+  dadashbala: 500,
+  tukezban: 500,
+  gulxanim: 500,
+};
+
+const TRANSACTIONS = {
+  dadashbala: [
+    {
+      from: 'Bank',
+      to: 'dadashbala',
+      amount: '+$500',
+      description: 'Bayram payı',
+    },
+  ],
+  tukezban: [
+    {
+      from: 'Bank',
+      to: 'tukezban',
+      amount: '+$500',
+      description: 'Bayram payı',
+    },
+  ],
+  gulxanim: [
+    {
+      from: 'Bank',
+      to: 'tukezban',
+      amount: '+$500',
+      description: 'Bayram payı',
+    },
+  ],
 };
 
 const SESSIONS = {}; // session_id => username
@@ -16,4 +43,5 @@ module.exports = {
   USERS,
   BALANCES,
   SESSIONS,
+  TRANSACTIONS,
 };
